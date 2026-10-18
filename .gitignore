@@ -11,3 +11,8 @@ bin/
 
 # Database credentials — never commit real passwords
 src/main/resources/config.properties
+
+# Agent working files — private, not for team repo
+docs/AGENT_MEMORY.md
+docs/design-inventory.md
+docs/assumptions-log.md

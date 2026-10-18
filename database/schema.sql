@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS chapter_component (
     chapter_id      VARCHAR(36)  NOT NULL,
     component_type  VARCHAR(50)  NOT NULL,
     order_index     INT          NOT NULL,
-    content         MEDIUMTEXT   NULL,
+    content         MEDIUMTEXT   NOT NULL DEFAULT '',
     created_at      TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
     updated_at      TIMESTAMP    DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (component_id),
@@ -93,6 +93,10 @@ CREATE TABLE IF NOT EXISTS glossary_entry (
         ON DELETE CASCADE
         ON UPDATE CASCADE,
         
-    INDEX idx_glossary_chapter (chapter_id),
-    INDEX idx_glossary_persian (persian_word)
+    -- a Persian word may appear in at most one chapter's glossary (enforced globally).
+    -- Under utf8mb4_unicode_ci, words that differ only in diacritics may be treated as equal
+    -- (e.g. كتاب vs کتاب — Arabic kaf vs Persian kaf). The GlossaryBO layer does an exact-string
+    -- check first; this constraint is a safety net at the database level.
+    CONSTRAINT uq_glossary_persian UNIQUE (persian_word),
+    INDEX idx_glossary_chapter (chapter_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
