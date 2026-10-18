@@ -1,0 +1,13 @@
+target/
+bin/
+*.class
+.classpath
+.project
+.settings/
+.idea/
+*.iml
+*.log
+.DS_Store
+
+# Database credentials — never commit real passwords
+src/main/resources/config.properties
