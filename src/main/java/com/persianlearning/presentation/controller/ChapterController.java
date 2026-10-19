@@ -1,7 +1,11 @@
 package com.persianlearning.presentation.controller;
 
 import com.persianlearning.business.bo.ChapterBO;
+import com.persianlearning.business.validation.ValidationResult;
+import com.persianlearning.model.Chapter;
 import com.persianlearning.presentation.view.ChapterView;
+
+import java.util.List;
 
 public class ChapterController {
     private ChapterBO chapterBO;
@@ -14,26 +18,55 @@ public class ChapterController {
     }
 
     public void showChapterList() {
-        // TODO: handle show chapter list
+        List<Chapter> chapters = chapterBO.getAllChapters();
+        view.displayChapterList(chapters);
     }
 
     public void createChapter(String title) {
-        // TODO: handle create chapter
+        ValidationResult result = chapterBO.createChapter(title);
+        if (result.isValid()) {
+            view.displayMessage("Chapter created successfully.");
+            showChapterList();
+        } else {
+            view.displayMessage(result.getMessage());
+        }
     }
 
     public void openChapter(String id) {
-        // TODO: handle open chapter
+        Chapter chapter = chapterBO.getChapter(id);
+        if (chapter != null) {
+            view.displayChapter(chapter);
+        } else {
+            view.displayMessage("Chapter not found.");
+        }
     }
 
     public void renameChapter(String id, String title) {
-        // TODO: handle rename chapter
+        ValidationResult result = chapterBO.renameChapter(id, title);
+        if (result.isValid()) {
+            view.displayMessage("Chapter renamed successfully.");
+            showChapterList();
+        } else {
+            view.displayMessage(result.getMessage());
+        }
     }
 
     public void requestDelete(String id) {
-        // TODO: handle request delete (show warning)
+        if (id == null || id.trim().isEmpty()) {
+            view.displayMessage("Please select a chapter to delete.");
+            return;
+        }
+        String warning = chapterBO.getDeleteWarning(id);
+        view.displayDeleteWarning(warning);
     }
 
     public void confirmDelete(String id, boolean confirmed) {
-        // TODO: handle confirm delete
+        ValidationResult result = chapterBO.deleteChapter(id, confirmed);
+        if (result.isValid()) {
+            view.displayMessage("Chapter deleted successfully.");
+            showChapterList();
+        } else {
+            view.displayMessage(result.getMessage());
+        }
     }
 }

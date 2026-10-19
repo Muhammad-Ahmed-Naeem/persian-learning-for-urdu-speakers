@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS chapter_component (
     chapter_id      VARCHAR(36)  NOT NULL,
     component_type  VARCHAR(50)  NOT NULL,
     order_index     INT          NOT NULL,
-    content         MEDIUMTEXT   NOT NULL DEFAULT '',
+    content         MEDIUMTEXT   NOT NULL DEFAULT (''),
     created_at      TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
     updated_at      TIMESTAMP    DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (component_id),
