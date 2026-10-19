@@ -21,38 +21,48 @@ import com.persianlearning.presentation.view.ChapterStructureView;
 import com.persianlearning.presentation.view.ChapterView;
 import com.persianlearning.presentation.view.GlossaryView;
 
+import javax.swing.SwingUtilities;
+
 public class AppMain {
 
     public static void main(String[] args) {
-        // Initialize DAO factory and DAOs
-        IDAOFactory factory = AbstractDAOFactory.getInstance();
-        IChapterDAO chapterDAO = factory.createChapterDAO();
-        IChapterComponentDAO componentDAO = factory.createChapterComponentDAO();
-        IGlossaryEntryDAO glossaryDAO = factory.createGlossaryEntryDAO();
+        SwingUtilities.invokeLater(() -> {
+            // Initialize DAO factory and DAOs
+            IDAOFactory factory = AbstractDAOFactory.getInstance();
+            IChapterDAO chapterDAO = factory.createChapterDAO();
+            IChapterComponentDAO componentDAO = factory.createChapterComponentDAO();
+            IGlossaryEntryDAO glossaryDAO = factory.createGlossaryEntryDAO();
 
-        // Facade
-        IDALFacade dalFacade = new DALFacade(chapterDAO, componentDAO, glossaryDAO);
+            // Facade
+            IDALFacade dalFacade = new DALFacade(chapterDAO, componentDAO, glossaryDAO);
 
-        // Business Objects
-        ChapterBO chapterBO = new ChapterBO(dalFacade);
-        ChapterStructureBO structureBO = new ChapterStructureBO(dalFacade);
-        ChapterContentBO contentBO = new ChapterContentBO(dalFacade);
-        GlossaryBO glossaryBO = new GlossaryBO(dalFacade);
+            // Business Objects
+            ChapterBO chapterBO = new ChapterBO(dalFacade);
+            ChapterStructureBO structureBO = new ChapterStructureBO(dalFacade);
+            ChapterContentBO contentBO = new ChapterContentBO(dalFacade);
+            GlossaryBO glossaryBO = new GlossaryBO(dalFacade);
 
-        // Views
-        AdminView adminView = new AdminView();
-        ChapterView chapterView = new ChapterView();
-        ChapterStructureView structureView = new ChapterStructureView();
-        ChapterContentView contentView = new ChapterContentView();
-        GlossaryView glossaryView = new GlossaryView();
+            // Views
+            AdminView adminView = new AdminView();
+            ChapterView chapterView = new ChapterView();
+            ChapterStructureView structureView = new ChapterStructureView();
+            ChapterContentView contentView = new ChapterContentView();
+            GlossaryView glossaryView = new GlossaryView();
 
-        // Controllers
-        ChapterController chapterController = new ChapterController(chapterBO, chapterView);
-        ChapterStructureController structureController = new ChapterStructureController(structureBO, structureView);
-        ChapterContentController contentController = new ChapterContentController(contentBO, contentView);
-        GlossaryController glossaryController = new GlossaryController(glossaryBO, glossaryView);
+            // Connect AdminView to ChapterView
+            adminView.setChapterView(chapterView);
 
-        // Show main window
-        adminView.showMainMenu();
+            // Controllers
+            ChapterController chapterController = new ChapterController(chapterBO, chapterView);
+            ChapterStructureController structureController = new ChapterStructureController(structureBO, structureView);
+            ChapterContentController contentController = new ChapterContentController(contentBO, contentView);
+            GlossaryController glossaryController = new GlossaryController(glossaryBO, glossaryView);
+
+            // Load initial chapter list
+            chapterController.showChapterList();
+
+            // Show main window
+            adminView.showMainMenu();
+        });
     }
 }
