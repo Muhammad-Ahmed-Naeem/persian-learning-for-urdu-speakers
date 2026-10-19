@@ -10,17 +10,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * In-memory test stub for IDALFacade.
- * Uses HashMaps to simulate database operations without needing MySQL or Mockito.
- */
 public class InMemoryDALFacade implements IDALFacade {
 
     private final Map<String, Chapter> chapters = new LinkedHashMap<>();
     private final Map<String, ChapterComponent> components = new LinkedHashMap<>();
     private final Map<String, GlossaryEntry> glossaryEntries = new LinkedHashMap<>();
 
-    // Flag to simulate database failure during tests
     private boolean failNextWrite = false;
 
     public void setFailNextWrite(boolean failNextWrite) {
@@ -33,8 +28,6 @@ public class InMemoryDALFacade implements IDALFacade {
         glossaryEntries.clear();
         failNextWrite = false;
     }
-
-    // --- Chapter Operations ---
 
     @Override
     public boolean addChapter(Chapter chapter) {
@@ -73,8 +66,6 @@ public class InMemoryDALFacade implements IDALFacade {
     public boolean deleteChapter(String id) {
         return chapters.remove(id) != null;
     }
-
-    // --- Component Operations ---
 
     @Override
     public boolean saveStructure(String chapterId, List<ChapterComponent> list) {
@@ -133,8 +124,6 @@ public class InMemoryDALFacade implements IDALFacade {
         }
         return true;
     }
-
-    // --- Glossary Operations ---
 
     @Override
     public boolean addEntry(GlossaryEntry entry) {
@@ -206,8 +195,6 @@ public class InMemoryDALFacade implements IDALFacade {
         }
         return true;
     }
-
-    // --- Cascade Delete ---
 
     @Override
     public boolean deleteChapterCascade(String id) {

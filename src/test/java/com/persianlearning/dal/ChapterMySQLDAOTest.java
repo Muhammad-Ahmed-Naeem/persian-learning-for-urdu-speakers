@@ -38,7 +38,6 @@ public class ChapterMySQLDAOTest {
         Chapter retrieved = dao.getChapterById(testChapterId);
         assertNotNull(retrieved);
         assertEquals(testChapterId, retrieved.getChapterId());
-        // Verify Persian text preservation (FR-CS-07)
         assertEquals("فصل اول: گفتگوی روزمره", retrieved.getTitle());
     }
 
