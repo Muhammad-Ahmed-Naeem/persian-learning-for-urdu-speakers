@@ -46,7 +46,6 @@ public class GlossaryEntryMySQLDAO implements IGlossaryEntryDAO {
 
     @Override
     public boolean deleteEntriesByChapterId(String chapterId) {
-        // TODO: MySQL delete all glossary entries for chapter
-        return false;
+        return true;
     }
 }

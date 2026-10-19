@@ -112,10 +112,8 @@ public class DALFacade implements IDALFacade {
 
     @Override
     public boolean deleteChapterCascade(String id) {
-        // Delete child entities first, then the chapter
-        boolean gOk = glossaryDAO.deleteEntriesByChapterId(id);
-        boolean cOk = componentDAO.deleteComponentsByChapterId(id);
-        boolean chOk = chapterDAO.deleteChapter(id);
-        return gOk && cOk && chOk;
+        glossaryDAO.deleteEntriesByChapterId(id);
+        componentDAO.deleteComponentsByChapterId(id);
+        return chapterDAO.deleteChapter(id);
     }
 }

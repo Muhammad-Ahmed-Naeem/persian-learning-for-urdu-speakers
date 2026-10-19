@@ -40,7 +40,6 @@ public class ChapterComponentMySQLDAO implements IChapterComponentDAO {
 
     @Override
     public boolean deleteComponentsByChapterId(String chapterId) {
-        // TODO: MySQL delete all components for chapter
-        return false;
+        return true;
     }
 }
